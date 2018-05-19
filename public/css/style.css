@@ -27,3 +27,13 @@ footer{
 #delete-form{
   display:inline;
 }
+.blue-almighty{
+  color:#0C7CFE;
+  background: #0C7CFE;
+}
+.btn{
+  background-color: #0c7cfe !important;
+}
+.sizzle-red{
+  background-color: #FE3959 !important;
+}

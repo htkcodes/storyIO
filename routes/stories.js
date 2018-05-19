@@ -103,30 +103,30 @@ router.post('/', (req, res) => {
   {
     res.render('stories/add',{errors:errors});
   }
+  else{
+    let allowComments;
 
-
-  let allowComments;
-
-  if(req.body.allowComments){
-    allowComments = true;
-  } else {
-    allowComments = false;
+    if(req.body.allowComments){
+      allowComments = true;
+    } else {
+      allowComments = false;
+    }
+  
+    const newStory = {
+      title: req.body.title,
+      body: req.body.body,
+      status: req.body.status,
+      allowComments:allowComments,
+      user: req.user.id
+    }
+  
+    // Create Story
+    new Story(newStory)
+      .save()
+      .then(story => {
+        res.redirect(`/stories/show/${story.id}`);
+      });
   }
-
-  const newStory = {
-    title: req.body.title,
-    body: req.body.body,
-    status: req.body.status,
-    allowComments:allowComments,
-    user: req.user.id
-  }
-
-  // Create Story
-  new Story(newStory)
-    .save()
-    .then(story => {
-      res.redirect(`/stories/show/${story.id}`);
-    });
 });
 
 // Edit Form Process
