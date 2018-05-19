@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const Story = mongoose.model('stories');
 const User = mongoose.model('users');
 const {ensureAuthenticated, ensureGuest} = require('../helpers/auth');
+const expressValidator=require('express-validator');
+
 
 // Stories Index
 router.get('/', (req, res) => {
@@ -91,7 +93,18 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 // Process Add Story
 router.post('/', (req, res) => {
 
-  
+  req.checkBody('body','Your story should not be empty').notEmpty();
+  req.checkBody('title','Your title should not be empty').notEmpty();
+
+  let errors = req.validationErrors();
+
+  console.log(errors);
+  if(errors)
+  {
+    res.render('stories/add',{errors:errors});
+  }
+
+
   let allowComments;
 
   if(req.body.allowComments){

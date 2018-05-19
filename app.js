@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+const ExpressValidator=require('express-validator');
 
 // Load Models
 require('./models/User');
@@ -74,6 +75,19 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(ExpressValidator({
+  errorFormatter:function(param,msg,value){
+    var namespace=param.split('.'),root = namespace.shift(),formParam=root;
+    while(namespace.length){
+      formParam+='['+namespace.shift()+ ']';
+    }
+    return{
+      param:formParam,
+      msg:msg,
+      value:value
+    };
+  }
+}));
 // Set global vars
 app.use((req, res, next) => {
   res.locals.user = req.user || null;

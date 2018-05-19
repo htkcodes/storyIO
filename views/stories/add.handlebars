@@ -1,5 +1,8 @@
 <h1>Add Story</h1>
 <div class="row">
+  {{#each errors}}
+  <p class="center red-text">{{msg}}</p>
+  {{/each}}
   <form action="/stories" method="post" class="col s12">
     <div class="row">
       <div class="input-field">
